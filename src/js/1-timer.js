@@ -18,17 +18,18 @@ function setTimer() {
     updateTimer()
     timer = setInterval(updateTimer, 1000)
 }
-
+console.log('fsdfsd');
 //функция обработки-обновления таймера
 function updateTimer ()  {
         const currentTime = new Date().getTime()
         dateTimerMs = userSelectedDate - currentTime;
-        if (dateTimerMs === 0) {
-            clearInterval(timer)
-        }
 
         const {days, hours, minutes, seconds} = convertMs(dateTimerMs)
         
+        if (seconds === 0 && minutes === 0 && hours === 0 && days === 0) {
+          clearInterval(timer)
+      }
+
         timerRefs.dayField.innerHTML = addLeadingZero(days);
         timerRefs.hourField.innerHTML = addLeadingZero(hours);
         timerRefs.minuteField.innerHTML = addLeadingZero(minutes);
@@ -41,20 +42,19 @@ const options = {
     defaultDate: new Date().getTime(),// сегодня в мс
     minuteIncrement: 1,
     onClose(selectedDates) {
-        userSelectedDate = selectedDates[0]. getTime(); //выбранная
+        userSelectedDate = selectedDates[0].getTime(); //выбранная
       
-        if(options.defaultDate >= userSelectedDate){
+        if (options.defaultDate >= userSelectedDate) {
         btn.disabled = true
         iziToast.show({
         message: "Please choose a date in the future",
         position: 'topCenter',
         color: 'red'
-    });
+       });
+       }
        
-      } else {
         btn.disabled = false
-      }
-    },
+    }
   };
 
   function convertMs(ms) {
