@@ -8,8 +8,6 @@ import "izitoast/dist/css/iziToast.min.css";
 
 const form = document.querySelector(".form");
 
-console.dir(form.elements.state);
-
 form.addEventListener("submit", handleSubmit)
 
 function handleSubmit (event) {
@@ -28,9 +26,10 @@ function createPromise(delay, state) {
         setTimeout(() => {
             if(state === "fulfilled"){
                 resolve(`✅ Fulfilled promise in ${delay}ms`)
-            } 
-
-            reject(`❌ Rejected promise in ${delay}ms`)
+            } else {
+    reject(`❌ Rejected promise in ${delay}ms`)
+}
+            
         }, delay) 
     }).then((message) =>{
         iziToast.show({

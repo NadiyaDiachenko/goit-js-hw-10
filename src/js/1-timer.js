@@ -18,7 +18,7 @@ function setTimer() {
     updateTimer()
     timer = setInterval(updateTimer, 1000)
 }
-console.log('fsdfsd');
+
 //функция обработки-обновления таймера
 function updateTimer ()  {
         const currentTime = new Date().getTime()
@@ -29,11 +29,15 @@ function updateTimer ()  {
         if (seconds === 0 && minutes === 0 && hours === 0 && days === 0) {
           clearInterval(timer)
       }
-
-        timerRefs.dayField.innerHTML = addLeadingZero(days);
-        timerRefs.hourField.innerHTML = addLeadingZero(hours);
-        timerRefs.minuteField.innerHTML = addLeadingZero(minutes);
-        timerRefs.secondField.innerHTML = addLeadingZero(seconds)   
+      
+      updateFieldMarkup(days, hours, minutes, seconds)  //обновляем поле
+}
+// функция обновления полей разметки
+function updateFieldMarkup(days = 0, hours = 0, minutes = 0, seconds = 0) {
+  timerRefs.dayField.innerHTML = addLeadingZero(days);
+  timerRefs.hourField.innerHTML = addLeadingZero(hours);
+  timerRefs.minuteField.innerHTML = addLeadingZero(minutes);
+  timerRefs.secondField.innerHTML = addLeadingZero(seconds)  
 }
 
 const options = {
@@ -42,10 +46,18 @@ const options = {
     defaultDate: new Date().getTime(),// сегодня в мс
     minuteIncrement: 1,
     onClose(selectedDates) {
+      if(timer) {
+        clearInterval(timer)
+        updateFieldMarkup()  // обнуляем поле
+      }
+
         userSelectedDate = selectedDates[0].getTime(); //выбранная
       
+        btn.disabled = false
+
         if (options.defaultDate >= userSelectedDate) {
         btn.disabled = true
+
         iziToast.show({
         message: "Please choose a date in the future",
         position: 'topCenter',
@@ -53,7 +65,6 @@ const options = {
        });
        }
        
-        btn.disabled = false
     }
   };
 
